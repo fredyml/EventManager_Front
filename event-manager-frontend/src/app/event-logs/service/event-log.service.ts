@@ -7,13 +7,13 @@ import { EventLog } from './../model/event-log.model';
 })
 export class EventLogService {
 
-  private apiUrl = 'https://yourbackend/api/events'; 
+  private apiUrl = 'https://localhost:7055/api/Events'; 
 
   constructor(private http: HttpClient) { }
 
   getEvents(eventTypeId?: number, startDate?: Date, endDate?: Date) {
     let params: { [key: string]: string } = {};
-    
+
     if (eventTypeId) {
       params['eventTypeId'] = eventTypeId.toString();
     }
