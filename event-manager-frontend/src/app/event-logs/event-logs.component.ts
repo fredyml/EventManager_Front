@@ -36,11 +36,21 @@ export class EventLogsComponent implements OnInit {
   }
 
   addNewEvent() {
-    this.eventLogs.push({
-      id: 0, 
-      date: new Date(), 
-      description: "",
-      eventTypeId: 0  
-    });
+    const currentDate = new Date();
+
+    const newEvent: EventLog = {
+      date: currentDate,
+      description: '',
+      eventTypeId: this.eventTypeId || 0
+    };
+
+    this.eventLogs.unshift(newEvent);
+  }
+
+  formatDate(date?: Date): string {
+    if (!date) {
+      return 'N/A'; 
+    }
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
   }
 }

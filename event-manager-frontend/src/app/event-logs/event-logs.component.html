@@ -1,32 +1,50 @@
 <h1>Administrador de Eventos</h1>
+
 <div class="control-section">
-    <label>Event Type ID:</label>
-    <select [(ngModel)]="eventTypeId" (change)="onFilterChange()">
-        <option *ngFor="let type of eventTypes" [value]="type.id">{{ type.name }}</option>
-    </select>
-    <label>Start Date:</label>
-    <input type="date" [(ngModel)]="startDate" (change)="onFilterChange()">
-    <label>End Date:</label>
-    <input type="date" [(ngModel)]="endDate" (change)="onFilterChange()">
+    <div class="input-group">
+        <label>Tipo de Evento:</label>
+        <select [(ngModel)]="eventTypeId" (change)="onFilterChange()">
+            <option *ngFor="let type of eventTypes" [value]="type.id">{{ type.name }}</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label>Fecha Inicial:</label>
+        <input type="date" [(ngModel)]="startDate" (change)="onFilterChange()">
+    </div>
+    <div class="input-group">
+        <label>Fecha Final:</label>
+        <input type="date" [(ngModel)]="endDate" (change)="onFilterChange()">
+    </div>
+    <div class="button-group">
+        <button (click)="loadEvents()">Buscar Eventos</button>
+    </div>
 </div>
+
 <div class="table-container">
+    <h2>Registro de Eventos</h2>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Event Type ID</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Tipo de Evento</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let event of eventLogs">
-                <td>{{ event.id }}</td>
-                <td>{{ event.date }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.eventTypeId }}</td>
+                <td>{{ formatDate(event.date) }}</td>
+                <td>
+                    <div style="overflow: auto; max-height: 100%; border: none;">
+                        <input style="border: none; width: 100%; outline: none; background: transparent;" [(ngModel)]="event.description" />
+                    </div>
+                </td>
+                <td>
+                    <select style="width: 200px;" [(ngModel)]="event.eventTypeId">
+                        <option *ngFor="let type of eventTypes" [value]="type.id">{{ type.name }}</option>
+                    </select>
+                </td>
             </tr>
         </tbody>
     </table>
-    <button (click)="addNewEvent()">Registrar Evento</button>
+    <button (click)="addNewEvent()">Registrar Eventos</button>
 </div>
