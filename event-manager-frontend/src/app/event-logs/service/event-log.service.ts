@@ -11,19 +11,25 @@ export class EventLogService {
 
     constructor(private http: HttpClient) { }
 
-    getEvents(eventTypeId?: number, startDate?: Date, endDate?: Date) {
-        let params: { [key: string]: string } = {};
+    getEvents(eventTypeId?: number, startDate?: string, endDate?: string) {
+        const params: { [key: string]: any } = {}; 
 
         if (eventTypeId) {
-            params['eventTypeId'] = eventTypeId.toString();
+            params['eventTypeId'] = eventTypeId;
         }
 
         if (startDate) {
-            params['startDate'] = startDate.toISOString();
+            const startDateObject = new Date(startDate);
+            if (!isNaN(startDateObject.getTime())) {
+                params['startDate'] = startDateObject.toISOString().split('T')[0];
+            }
         }
 
         if (endDate) {
-            params['endDate'] = endDate.toISOString();
+            const endDateObject = new Date(endDate);
+            if (!isNaN(endDateObject.getTime())) {
+                params['endDate'] = endDateObject.toISOString().split('T')[0];
+            }
         }
 
         return this.http.get<EventLog[]>(this.apiUrl, { params });

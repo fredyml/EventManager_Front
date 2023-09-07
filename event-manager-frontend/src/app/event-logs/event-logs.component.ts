@@ -17,20 +17,31 @@ export class EventLogsComponent implements OnInit {
 
   eventLogs: EventLog[] = [];
   eventTypeId?: number;
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: string; 
+  endDate?: string; 
   eventDescription: string = '';
 
   constructor(private eventLogService: EventLogService) { }
 
   ngOnInit(): void {
+    this.eventTypeId = 1;
     this.loadEvents();
   }
 
   loadEvents(): void {
-    this.eventLogService.getEvents(this.eventTypeId, this.startDate, this.endDate)
-      .subscribe(data => this.eventLogs = data);
-  }
+    if (this.eventTypeId || (this.startDate && this.endDate)) {
+        this.eventLogService.getEvents(this.eventTypeId, this.startDate, this.endDate)
+            .subscribe(data => {
+                this.eventLogs = data || []; 
+            }, error => {
+                console.error('Error loading events:', error);
+                this.eventLogs = []; 
+            });
+    } else {
+         this.eventLogs = [];
+    }
+}
+
 
   onFilterChange(): void {
     this.loadEvents();
@@ -74,8 +85,15 @@ export class EventLogsComponent implements OnInit {
         }
       );
     });
-}
+  }
 
+  clearFilters(): void {
+    this.eventTypeId = 1;
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.loadEvents();
+  }
+  
 
   formatDate(dateStr?: string): string {
     if (!dateStr) {
