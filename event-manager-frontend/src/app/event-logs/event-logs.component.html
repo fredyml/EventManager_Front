@@ -34,17 +34,17 @@
             <tr *ngFor="let event of eventLogs">
                 <td>{{ formatDate(event.date) }}</td>
                 <td>
-                    <div style="overflow: auto; max-height: 100%; border: none;">
-                        <input style="border: none; width: 100%; outline: none; background: transparent;" [(ngModel)]="event.description" />
-                    </div>
+                    <input style="border: none; width: 100%; outline: none; background: transparent;"
+                           [(ngModel)]="event.description" />
                 </td>
                 <td>
-                    <select style="width: 200px;" [(ngModel)]="event.eventTypeId">
-                        <option *ngFor="let type of eventTypes" [value]="type.id">{{ type.name }}</option>
+                    <select [(ngModel)]="event.eventTypeId">
+                        <option *ngFor="let type of eventTypes" [value]="type.id">{{type.name}}</option>
                     </select>
                 </td>
             </tr>
         </tbody>
     </table>
+    <button class="add-row-btn" (click)="addNewRow()">Añadir fila</button>
     <button (click)="addNewEvent()">Registrar Eventos</button>
 </div>
